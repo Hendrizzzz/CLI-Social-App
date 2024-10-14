@@ -13,6 +13,9 @@
         <module>model</module>
         <module>view</module>
         <module>controller</module>
+        <module>exceptions</module>
+        <module>util</module>
+
 
     </modules>
 
