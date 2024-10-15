@@ -1,5 +1,7 @@
 package utility;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
@@ -9,14 +11,15 @@ import runtime.*;
 
 public class User {
     private int id;
+    private String userName;
     private String firstName;
     private String lastName;
     private String password;
     private int age;
-    private Date birthDate;
+    private LocalDate birthDate;
     private char gender;
     private int friendsCount;
-    private Date joinDate;
+    private LocalDate joinDate;
     private String whoCanSendFriendRequest;
     private String whoCanCommentOnMyPosts;
 
@@ -24,20 +27,43 @@ public class User {
 
     }
 
-    public static void main(String[] args) {
-        System.out.println("So what is your name kid? ");
-        Scanner scanner = new Scanner(System.in);
 
-        String name = scanner.nextLine();
-        System.out.println("So your name is " + name);
+    public User(String userName, String firstName, String lastName, String password, LocalDate birthDate, char gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.birthDate = birthDate;
+        this.gender = gender;
     }
 
-    public User(String firstName, String lastName, String password, Date birthDate, char gender) {
-        setFirstName(firstName);
-        setLastName(lastName);
-        setPassword(password);
-        setBirthDate(birthDate);
-        setGender(gender);
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public int getId() {
@@ -49,76 +75,58 @@ public class User {
         return this.firstName;
     }
 
-    //TODO : change this into a custom exception
-    public void setFirstName(String firstName) {
-        if (isInvalidName(firstName))
-            throw new InvalidNameException("First Name contains an Invalid word. ");
 
-        this.firstName = firstName;
-    }
-
-
-
+    /**
+     * Gets the last name of this user
+     * @return the last name of this user
+     */
     public String getLastName() {
         return this.lastName;
     }
 
-    // TODO: change this into a custom exception
-    public void setLastName(String lastName) {
-        if (isInvalidName(lastName))
-            throw new InvalidNameException("Last Name contains invalid keyword. ");
 
-        this.lastName = lastName;
-    }
 
+    /**
+     * Gets the password for this user
+     * @return the password
+     */
     public String getPassword() {
         return this.password;
     }
 
-    // TODO: change this into a custom exception
-    public void setPassword(String password) {
-        if (!isValidPassword(password))
-            throw new InvalidPasswordException("The password must be at least 8 characters long and contains uppercase, lowercase, and a digit character. ");
 
-        this.password = password;
-    }
-
-
+    /**
+     * Gets the age of this user
+     * @return the age of this user
+     */
     public int getAge() {
         return this.age;
     }
 
-    // TODO: change this into a custom exception
+    /**
+     * Sets the age of this user
+     * @param age the age to be set for this user (based on his birthday)
+     */
     public void setAge(int age) {
         this.age = age;
     }
 
 
-    public Date getBirthDate() {
+    /**
+     * Gets the birthdate of this user
+     * @return the birthdate of this user
+     */
+    public LocalDate getBirthDate() {
         return this.birthDate;
     }
 
-    // TODO : change this into a custom exception
-    public void setBirthDate(Date date) {
-        int age = calculateAge(date);
-        if (isValidAge(age))
-            throw new InvalidAgeException("user is underage. ");
 
-        this.birthDate = date;
-        setAge(age);
-    }
-
-
+    /**
+     * Gets the gender of this object
+     * @return gender
+     */
     public char getGender() {
         return this.gender;
-    }
-
-    // TODO : change this into a custom exception
-    public void setGender(char gender) {
-        if (isInvalidGender(gender))
-            throw new RuntimeException();
-
-        this.gender = gender;
     }
 
     public int getFriendsCount() {
@@ -126,7 +134,7 @@ public class User {
     }
 
 
-    public Date getJoinDate() {
+    public LocalDate getJoinDate() {
         return this.joinDate;
     }
 
@@ -163,26 +171,9 @@ public class User {
     }
 
 
-    private int calculateAge(Date date) {
-        Date currentDate = new Date();
-
-        // Create Calendar instances
-        Calendar birthCal = Calendar.getInstance();
-        Calendar currentCal = Calendar.getInstance();
-
-        birthCal.setTime(birthDate);
-        currentCal.setTime(currentDate);
-
-        int age = currentCal.get(Calendar.YEAR) - birthCal.get(Calendar.YEAR);
-
-        // Adjust for months and days
-        if (currentCal.get(Calendar.MONTH) < birthCal.get(Calendar.MONTH) ||
-                (currentCal.get(Calendar.MONTH) == birthCal.get(Calendar.MONTH) &&
-                        currentCal.get(Calendar.DAY_OF_MONTH) < birthCal.get(Calendar.DAY_OF_MONTH)))
-            age--;
-
-
-        return age;
+    private int calculateAge(LocalDate birthDate) {
+        LocalDate currentDate = LocalDate.now();
+        return Period.between(birthDate, currentDate).getYears();
     }
 
     private boolean isInvalidGender(char gender) {
