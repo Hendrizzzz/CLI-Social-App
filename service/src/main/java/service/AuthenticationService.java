@@ -43,7 +43,7 @@ public class AuthenticationService {
         validateGender(gender);
 
         User newUser = new User(userName, firstName, lastName, password, birthDate, gender);
-        userDAO.addUser(user);
+        userDAO.addUser(newUser);
     }
 
 
@@ -74,8 +74,9 @@ public class AuthenticationService {
             throw new InvalidNameException("First Name contains an Invalid word. ");
     }
 
-    // TODO : Implement this method
     private void validateUserName(String userName) {
+        if (userDAO.isUserNamePresent(userName))
+            throw new UsernameAlreadyPresentException("Username is already used. Try another. ");
     }
 
     /**

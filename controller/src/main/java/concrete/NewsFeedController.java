@@ -46,4 +46,19 @@ public class NewsFeedController implements NewsFeedActionListener {
         NewsFeedDTO newsFeedOfCurrentUser = userService.getNewsFeed(currentUser);
         newsFeed.displayNewsFeed(newsFeedOfCurrentUser);
     }
+
+    @Override
+    public void handleNavigationRequest(String action) {
+        switch (action) {
+            case "friends" -> context.switchTo(FriendsController.class);
+            case "settings" -> context.switchTo(SettingsController.class);
+            case "notifications" -> context.switchTo(NotificationController.class);
+            case "search" -> context.switchTo(SearchController.class);
+            case "profile" -> context.switchTo(ProfileController.class);
+            case "log out" -> context.switchTo(AuthenticationController.class);
+            default -> System.out.println("Invalid navigation. Request not found. ");
+        }
+    }
+
+
 }

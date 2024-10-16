@@ -8,4 +8,19 @@ public class UserDAO {
     public boolean isUserPresent(User userTOBeChecked) {
         return false;
     }
+
+    // TODO : Implement this method
+    public void addUser(User user) {
+
+    }
+
+    // TODO : Implement this method
+    public void removeUser(User userToBeRemoved) {
+    }
+
+
+    // TODO : Implement this method
+    public boolean isUserNamePresent(String userName) {
+        return false;
+    }
 }

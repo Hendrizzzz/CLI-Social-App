@@ -1,4 +1,10 @@
 package concrete;
 
-public class ProfileController {
+import interfaces.controller.ProfileControllerInterface;
+
+public class ProfileController implements ProfileControllerInterface {
+    @Override
+    public void start() {
+
+    }
 }
